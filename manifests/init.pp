@@ -57,6 +57,8 @@
 # @param purge_rules `true` to remove all non-puppet managed rules from `conf_d` directory
 # @param header Warning message to add to top of each managed file
 # @param conf_d directory to store rule fragments in
+# @param service_stop Command to stop auditd (MUST bypass systemd https://access.redhat.com/solutions/2664811)
+# @param service_restart Command to restart auditd (MUST bypass systemd https://access.redhat.com/solutions/2664811)
 class auditd(
     Array[String]                       $package_name         = ["audit", "audispd-plugins"],
     Hash[String, Any]                   $settings             = {},
@@ -70,6 +72,8 @@ class auditd(
     Boolean                             $purge_rules          = true,
     String                              $header               = "# managed by puppet",
     String                              $conf_d               = "/etc/audit/rules.d/",
+    String                              $service_stop         = "/usr/sbin/service stop auditd",
+    String                              $service_restart      = "/usr/sbin/service restart auditd",
 ) {
 
   # Install package
@@ -137,8 +141,10 @@ class auditd(
   }
 
   service { $service_name:
-    ensure => $service_ensure,
-    enable => $service_enable,
+    ensure  => $service_ensure,
+    enable  => $service_enable,
+    restart => $service_restart,
+    stop    => $service_stop,
   }
 
 }

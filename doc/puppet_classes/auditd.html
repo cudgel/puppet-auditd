@@ -366,6 +366,44 @@ settings in audispd.conf  * Auditd rules (as managed files under
       
     </li>
   
+    <li>
+      
+        <span class='name'>service_stop</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;/usr/sbin/service stop auditd&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Command to stop auditd (MUST bypass systemd <a
+href="https://access.redhat.com/solutions/2664811">access.redhat.com/solutions/2664811</a>)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>service_restart</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;/usr/sbin/service restart auditd&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Command to restart auditd (MUST bypass systemd <a
+href="https://access.redhat.com/solutions/2664811">access.redhat.com/solutions/2664811</a>)</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -376,8 +414,6 @@ settings in audispd.conf  * Auditd rules (as managed files under
         <pre class="lines">
 
 
-60
-61
 62
 63
 64
@@ -460,10 +496,16 @@ settings in audispd.conf  * Auditd rules (as managed files under
 141
 142
 143
-144</pre>
+144
+145
+146
+147
+148
+149
+150</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 60</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 62</span>
 
 class auditd(
     Array[String]                       $package_name         = [&quot;audit&quot;, &quot;audispd-plugins&quot;],
@@ -478,6 +520,8 @@ class auditd(
     Boolean                             $purge_rules          = true,
     String                              $header               = &quot;# managed by puppet&quot;,
     String                              $conf_d               = &quot;/etc/audit/rules.d/&quot;,
+    String                              $service_stop         = &quot;/usr/sbin/service stop auditd&quot;,
+    String                              $service_restart      = &quot;/usr/sbin/service restart auditd&quot;,
 ) {
 
   # Install package
@@ -545,8 +589,10 @@ class auditd(
   }
 
   service { $service_name:
-    ensure =&gt; $service_ensure,
-    enable =&gt; $service_enable,
+    ensure  =&gt; $service_ensure,
+    enable  =&gt; $service_enable,
+    restart =&gt; $service_restart,
+    stop    =&gt; $service_stop,
   }
 
 }</pre>
