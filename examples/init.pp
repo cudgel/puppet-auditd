@@ -1,12 +1,34 @@
-# The baseline for module testing used by Puppet Inc. is that each manifest
-# should have a corresponding test manifest that declares that class or defined
-# type.
-#
-# Tests are then run by using puppet apply --noop (to check for compilation
-# errors and view a log of events) or by fully applying the test in a virtual
-# environment (to compare the resulting system state to the desired state).
-#
-# Learn more about module testing here:
-# https://puppet.com/docs/puppet/latest/bgtm.html#testing-your-module
-#
-include ::auditd
+#@PDQTest
+
+$settings =  {
+  "log_format"          => "ENRICHED",
+  "max_log_file"        => "50",
+  "num_logs"            => "5",
+  "max_log_file_action" => "rotate",
+  "local_events"        => "yes",
+}
+
+$rules = {
+  "10_date_and_time" => {
+    "content" => "
+# data and time
+-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
+-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
+-a always,exit -F arch=b64 -S clock_settime -k time-change
+-a always,exit -F arch=b32 -S clock_settime -k time-change
+-w /etc/localtime -p wa -k time-change",
+  },
+  "20_user_and_group" => {
+    "content" => "
+# users and groups
+-w /etc/group -p wa -k identity
+-w /etc/passwd -p wa -k identity
+-w /etc/gshadow -p wa -k identity
+-w /etc/shadow -p wa -k identity",
+  }
+}
+
+class { "auditd":
+  settings => $settings,
+  rules    => $rules,
+}

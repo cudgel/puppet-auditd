@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-auditd",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "author": "geoffwilliams",
   "summary": "Puppet Auditd module",
   "license": "Apache-2.0",
@@ -11,6 +11,10 @@
     {
       "name": "puppetlabs-stdlib",
       "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "geoffwilliams-filemagic",
+      "version_requirement": "0.5.2"
     }
   ],
   "data_provider": null,
