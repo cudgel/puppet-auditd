@@ -140,11 +140,13 @@ class auditd(
     }
   }
 
+  # Force using the `service` command to restart auditd
+  # https://github.com/GeoffWilliams/puppet-auditd/issues/1
   service { $service_name:
-    ensure  => $service_ensure,
-    enable  => $service_enable,
-    restart => $service_restart,
-    stop    => $service_stop,
+    ensure   => $service_ensure,
+    provider => 'redhat',
+    enable   => $service_enable,
+    restart  => $service_restart,
   }
 
 }

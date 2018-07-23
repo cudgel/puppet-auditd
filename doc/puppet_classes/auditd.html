@@ -502,7 +502,9 @@ href="https://access.redhat.com/solutions/2664811">access.redhat.com/solutions/2
 147
 148
 149
-150</pre>
+150
+151
+152</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/init.pp', line 62</span>
@@ -588,11 +590,13 @@ class auditd(
     }
   }
 
+  # Force using the `service` command to restart auditd
+  # https://github.com/GeoffWilliams/puppet-auditd/issues/1
   service { $service_name:
-    ensure  =&gt; $service_ensure,
-    enable  =&gt; $service_enable,
-    restart =&gt; $service_restart,
-    stop    =&gt; $service_stop,
+    ensure   =&gt; $service_ensure,
+    provider =&gt; &#39;redhat&#39;,
+    enable   =&gt; $service_enable,
+    restart  =&gt; $service_restart,
   }
 
 }</pre>
