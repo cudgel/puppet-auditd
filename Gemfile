@@ -5,6 +5,6 @@ when /darwin/
 end
 gem 'facter', '2.5.1'
 gem 'rspec-puppet-facts', '1.7.0'
-gem 'pdqtest', '1.2.1'
+gem 'pdqtest', '1.3.0'
 gem 'puppet-strings', :git => 'https://github.com/puppetlabs/puppet-strings'
 gem 'puppet', '5.3.5'
