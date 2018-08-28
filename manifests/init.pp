@@ -1,6 +1,4 @@
-# Auditd
-#
-# Setup and manage auditd using Puppet
+# @summary Setup and manage auditd using Puppet
 #
 # This module takes a non-templated approach to management in order to easily incorporate upstream
 # changes from vendor.

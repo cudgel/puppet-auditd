@@ -5,15 +5,11 @@
 
 **Classes**
 
-* [`auditd`](#auditd): Auditd  Setup and manage auditd using Puppet  This module takes a non-templated approach to management in order to easily incorporate upstrea
+* [`auditd`](#auditd): Setup and manage auditd using Puppet
 
 ## Classes
 
 ### auditd
-
-Auditd
-
-Setup and manage auditd using Puppet
 
 This module takes a non-templated approach to management in order to easily incorporate upstream
 changes from vendor.
