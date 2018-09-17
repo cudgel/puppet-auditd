@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-auditd",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "author": "geoffwilliams",
   "summary": "Puppet Auditd module",
   "license": "Apache-2.0",
