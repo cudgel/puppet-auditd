@@ -70,8 +70,8 @@ class auditd(
     Boolean                             $purge_rules          = true,
     String                              $header               = "# managed by puppet",
     String                              $conf_d               = "/etc/audit/rules.d/",
-    String                              $service_stop         = "/sbin/service stop auditd",
-    String                              $service_restart      = "/sbin/service restart auditd",
+    String                              $service_stop         = "/sbin/service auditd stop",
+    String                              $service_restart      = "/sbin/service auditd restart",
 ) {
 
   # Install package

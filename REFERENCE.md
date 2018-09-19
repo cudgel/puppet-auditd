@@ -174,7 +174,7 @@ Data type: `String`
 
 Command to stop auditd (MUST bypass systemd https://access.redhat.com/solutions/2664811)
 
-Default value: "/sbin/service stop auditd"
+Default value: "/sbin/service auditd stop"
 
 ##### `service_restart`
 
@@ -182,5 +182,5 @@ Data type: `String`
 
 Command to restart auditd (MUST bypass systemd https://access.redhat.com/solutions/2664811)
 
-Default value: "/sbin/service restart auditd"
+Default value: "/sbin/service auditd restart"
 
