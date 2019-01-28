@@ -58,7 +58,6 @@
 # @param service_stop Command to stop auditd (MUST bypass systemd https://access.redhat.com/solutions/2664811)
 # @param service_restart Command to restart auditd (MUST bypass systemd https://access.redhat.com/solutions/2664811)
 class auditd(
-    Array[String]                       $package_name         = ["audit", "audispd-plugins"],
     Hash[String, Any]                   $settings             = {},
     Hash[String, Any]                   $audispd_settings     = {},
     Enum['running','stopped']           $service_ensure       = 'running',
@@ -72,8 +71,21 @@ class auditd(
     String                              $conf_d               = "/etc/audit/rules.d/",
     String                              $service_stop         = "/sbin/service auditd stop",
     String                              $service_restart      = "/sbin/service auditd restart",
+    Optional[Array]                     $package_name
 ) {
 
+  case $facts['os']['family'] {
+    'RedHat': { 
+      $package_name = ['audit', 'audispd-plugins'],
+      $provider = 'redhat'
+    }
+    'Debian': { 
+      $package_name = ['auditd', 'audispd-plugins'],
+      $provider = 'systemd'
+    }
+    default: { info('Unhandled OS family') }
+  }
+  
   # Install package
   package { $package_name:
     ensure => 'present',
@@ -142,7 +154,7 @@ class auditd(
   # https://github.com/GeoffWilliams/puppet-auditd/issues/1
   service { $service_name:
     ensure   => $service_ensure,
-    provider => 'redhat',
+    provider => $provider,
     enable   => $service_enable,
     restart  => $service_restart,
   }
